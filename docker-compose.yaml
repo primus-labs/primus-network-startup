@@ -1,0 +1,59 @@
+x-common-env: &service_env
+  PRIVATE_KEY: ${PRIVATE_KEY}
+  BASE_RPC_URL: https://sepolia.base.org
+  # Base testnet : 0x7f56cd78A2c982440Eb33Ac260550FE2Acc00b81
+  BASE_TASK_CONTRACT_ADDRESS: 0x7f56cd78A2c982440Eb33Ac260550FE2Acc00b81
+  BASE_CHAIN_ID: 84532
+  BNB_CHAIN_RPC_URL: https://bsc-testnet.therpc.io
+  BNB_CHAIN_TASK_CONTRACT_ADDRESS: 0x516Ac618A985183968eC470614747CDED18DB929
+  BNB_CHAIN_CHAIN_ID: 97
+
+# Do not modify the following parameters unless you need to specify the port
+x-service-base: &service_base
+  restart: always
+  networks:
+    - attestor-network
+  environment: *service_env
+
+services:
+  redis:
+    <<: *service_base
+    image: redis:latest
+    container_name: redis
+    restart: always
+    ports:
+      - "6379"
+
+  attestor-node:
+    <<: *service_base
+    image: pado/attestor-node:latest
+    container_name: attestor-node
+    depends_on:
+      - redis
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+      - "8082:8082"
+      - "8083:8083"
+    environment:
+      <<: *service_env
+      APP_NAME: attestor-node
+      ATTESTOR_ONCHAIN_TOOLKIT_URL: http://attestor-service:8084
+      REDIS_HOST: redis
+
+  attestor-service:
+    <<: *service_base
+    image: pado/attestor-service:latest
+    container_name: attestor-service
+    depends_on:
+      - redis
+    ports:
+      - "8084:8084"
+    environment:
+      <<: *service_env
+      APP_NAME: attestor-service
+      REDIS_HOST: redis
+
+networks:
+  attestor-network:
+    driver: bridge
