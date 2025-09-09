@@ -51,7 +51,7 @@ You can configure the following environment variables in `docker-compose.yaml`:
 
 #### Start the services
 ```shell
-./run.sh start
+sudo ./run.sh start
 ```
 
 ### 4. Configure SSL/TLS and Reverse Proxy
@@ -61,7 +61,7 @@ You can configure the following environment variables in `docker-compose.yaml`:
 If your OS is Ubuntu, you can run the following command to complete all steps:
 
 ```shell
-./run.sh cert <your_domain>
+sudo ./run.sh cert <your_domain>
 ```
 
 Otherwise, you can manually configure SSL/TLS and the reverse proxy with the steps below:
@@ -124,7 +124,7 @@ ATTESTOR_URLS=<node-domain1>,<node-domain2>
 
 #### 5.2 Register the node
 ```bash
-./run.sh register
+sudo ./run.sh register
 ```
 
 ### 6. Monitoring and Logging
@@ -132,23 +132,23 @@ ATTESTOR_URLS=<node-domain1>,<node-domain2>
 #### View Logs
 ```bash
 # View all service logs
-./run.sh logs
+sudo ./run.sh logs
 
 # View specific service logs
-./run.sh logs attestor-node
-./run.sh logs attestor-service
+sudo ./run.sh logs attestor-node
+sudo ./run.sh logs attestor-service
 ```
 
 ### 7. Update Services
 ```bash
 # Update image tags to the latest versions in docker-compose.yaml
-./run.sh update
+sudo ./run.sh update
 ```
 
 ### 8. Reset the Environment
 To reset the environment, including all data, run the following command:
 ```bash
 # Remove volumes (WARNING: This will delete all data)
-./run.sh clean
-./run.sh start
+sudo ./run.sh clean
+sudo ./run.sh start
 ```
