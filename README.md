@@ -57,6 +57,7 @@ You can configure the following environment variables in `docker-compose.yaml`:
 ### 4. Configure SSL/TLS and Reverse Proxy
 
 > **Note: Before configuring SSL/TLS, point your domain to the server’s IP address.**
+
 If your OS is Ubuntu, you can run the following command to complete all steps:
 
 ```shell
