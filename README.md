@@ -17,7 +17,7 @@ This guide explains how to deploy the Primus Network Attestor Node using Docker 
 #### Recommended for Production
 - **CPU**: 4+ cores
 - **Memory**: 8GB+ RAM
-- **Storage**: 50GB+ SSD storage
+- **Storage**: 100GB+ SSD storage
 - **Network**: High-bandwidth, low-latency connection
 
 ### 2. Clone and Prepare
