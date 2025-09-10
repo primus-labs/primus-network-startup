@@ -49,8 +49,8 @@ apply_ssl_cert(){
   fi
 
   # Apply HTTP config for HTTP-01 challenge
-  sudo cp ./files/attestor-node-http.conf /etc/nginx/conf.d/attestor-node-http.conf
-  sudo sed -i "s/<domain>/$domain/g" /etc/nginx/conf.d/attestor-node-http.conf
+  sudo cp ./files/attestor-node-http.conf /etc/nginx/conf.d/attestor-node-$domain-http.conf
+  sudo sed -i "s/<domain>/$domain/g" /etc/nginx/conf.d/attestor-node-$domain-http.conf
   sudo nginx -t
   sudo nginx -s reload
 
@@ -58,8 +58,8 @@ apply_ssl_cert(){
   sudo certbot certonly --nginx -d "$domain"
 
   # Enable HTTPS config
-  sudo cp ./files/attestor-node-https.conf /etc/nginx/conf.d/attestor-node-https.conf
-  sudo sed -i "s/<domain>/$domain/g" /etc/nginx/conf.d/attestor-node-https.conf
+  sudo cp ./files/attestor-node-https.conf /etc/nginx/conf.d/attestor-node-$domain-https.conf
+  sudo sed -i "s/<domain>/$domain/g" /etc/nginx/conf.d/attestor-node-$domain-https.conf
   sudo nginx -t
   sudo nginx -s reload
 
