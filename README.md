@@ -9,7 +9,11 @@ This guide explains how to deploy the Primus Network Attestor Node using Docker 
 | base-sepolia      | 84532   | ✅       | 
 
 ### Prerequisites
-
+- Hardware Requirements:
+    - **CPU**: 4+ cores (x86/64)
+    - **Memory**: 8GB+ RAM
+    - **Storage**: 100GB+ SSD storage
+    - **Network**: High-bandwidth, low-latency connection
 - OS: Ubuntu 22.04 LTS (Recommended)
 - [Docker](https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script)
   and [Docker Compose](https://docs.docker.com/compose/install/standalone/) installed
@@ -19,16 +23,7 @@ This guide explains how to deploy the Primus Network Attestor Node using Docker 
 
 ### Quick Start
 
-#### 1. Resource Requirements
-
-Recommended for Production: 
-
-- **CPU**: 4+ cores (x86/64)
-- **Memory**: 8GB+ RAM
-- **Storage**: 100GB+ SSD storage
-- **Network**: High-bandwidth, low-latency connection
-
-#### 2. Clone and Prepare
+#### 1. Clone and Prepare
 
 ```bash
 git clone https://github.com/primus-labs/primus-network-startup.git
@@ -36,7 +31,7 @@ cd primus-network-startup
 chmod +x ./run.sh
 ```
 
-#### 3. Deploy the Node with Docker Compose
+#### 2. Deploy the Node with Docker Compose
 
 You can run the node with Docker Compose. This starts all services:
 
@@ -69,7 +64,7 @@ You can configure the following environment variables in `docker-compose.yaml`:
 sudo ./run.sh start
 ```
 
-#### 4. Configure SSL/TLS and Reverse Proxy
+#### 3. Configure SSL/TLS and Reverse Proxy
 
 > **Note: Before configuring SSL/TLS, point your domain to the server’s IP address.**
 
@@ -106,10 +101,10 @@ nginx -s reload
 
 > The deployment is now complete.
 
-#### 5. Register the Node
+#### 4. Register the Node
 > ***NOTE: Before registering a node, you must first contact the [primuslabs team]([primuslabs team](https://discord.gg/YxJftNRxhh)) to have the attestor added to the whitelist.***
 
-##### 5.1 Set Environment Variables
+##### 4.1 Set Environment Variables
 
 Based on the chain where your node is located, run the following command:
 
@@ -148,13 +143,13 @@ ATTESTOR_URLS=<node-domain1>,<node-domain2>
 
 ***MAKE SURE `NODE_META_URL` IS PUBLICLY ACCESSIBLE ON THE INTERNET.***
 
-##### 5.2 Register the node
+##### 4.2 Register the node
 
 ```bash
 sudo ./run.sh register
 ```
 
-#### 6. Monitoring and Logging
+#### 5. Monitoring and Logging
 
 ##### View Logs
 
@@ -167,14 +162,14 @@ sudo ./run.sh logs attestor-node
 sudo ./run.sh logs attestor-service
 ```
 
-#### 7. Update Services
+#### 6. Update Services
 
 ```bash
 # Update image tags to the latest versions in docker-compose.yaml
 sudo ./run.sh update
 ```
 
-#### 8. Reset the Environment
+#### 7. Reset the Environment
 
 To reset the environment, including all data, run the following command:
 
