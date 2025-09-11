@@ -18,7 +18,10 @@ check_environment(){
     echo "Docker Compose is not installed, please install it!"
     exit 1
   fi
+}
 
+apply_ssl_cert(){
+  domain=${1:-}
   # Check nginx installed
   if ! command -v nginx >/dev/null 2>&1; then
     echo "Nginx is not installed; installing..."
@@ -26,10 +29,6 @@ check_environment(){
     sudo apt install -y nginx
     nginx -v
   fi
-}
-
-apply_ssl_cert(){
-  domain=${1:-}
   if [[ -z "$domain" ]]; then
     echo "Usage: $0 cert <domain>"
     exit 1
