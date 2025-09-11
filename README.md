@@ -102,7 +102,7 @@ nginx -s reload
 > The deployment is now complete.
 
 #### 4. Register the Node
-> ***NOTE: Before registering a node, you must first contact the [primuslabs team]([primuslabs team](https://discord.gg/YxJftNRxhh)) to have the attestor added to the whitelist.***
+> ***NOTE: Before registering a node, you must first contact the [primuslabs team](https://discord.gg/YxJftNRxhh) to have the attestor added to the whitelist.***
 
 ##### 4.1 Set Environment Variables
 
