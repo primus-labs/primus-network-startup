@@ -102,7 +102,7 @@ logs(){
 register_node(){
   # Check .env  exists
   if [ ! -f .env ]; then
-    echo "Please copy .env.<chain-name> to .env and edit it!"
+    echo "Please copy env_files/.env.<chain-name> to .env and edit it!"
     exit 1
   fi
   docker run --rm --env-file .env primuslabs/attestor-tools:latest node src/nodeMgt.js registerNode
