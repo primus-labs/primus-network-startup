@@ -1,14 +1,14 @@
-# Docker Deployment Guide
+## Docker Deployment Guide
 
 This guide explains how to deploy the Primus Network Attestor Node using Docker in production environments.
 
-## Support chains
+### Support chains
 
 | chain             | chainId | support | 
 |-------------------|---------|---------|
 | base-sepolia      | 84532   | ✅       | 
 
-## Prerequisites
+### Prerequisites
 
 - OS: Ubuntu 22.04 LTS (Recommended)
 - [Docker](https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script)
@@ -17,18 +17,18 @@ This guide explains how to deploy the Primus Network Attestor Node using Docker 
 - A domain name
 - Reliable RPC endpoints for Base and BNB Chain (for example, [Alchemy](https://www.alchemy.com/))
 
-## Quick Start
+### Quick Start
 
-### 1. Resource Requirements
+#### 1. Resource Requirements
 
-#### Recommended for Production
+Recommended for Production: 
 
-- **CPU**: 4+ cores
+- **CPU**: 4+ cores (x86/64)
 - **Memory**: 8GB+ RAM
 - **Storage**: 100GB+ SSD storage
 - **Network**: High-bandwidth, low-latency connection
 
-### 2. Clone and Prepare
+#### 2. Clone and Prepare
 
 ```bash
 git clone https://github.com/primus-labs/primus-network-startup.git
@@ -36,7 +36,7 @@ cd primus-network-startup
 chmod +x ./run.sh
 ```
 
-### 3. Deploy the Node with Docker Compose
+#### 3. Deploy the Node with Docker Compose
 
 You can run the node with Docker Compose. This starts all services:
 
@@ -44,15 +44,15 @@ You can run the node with Docker Compose. This starts all services:
 - **Attestor Node** (ports 8080-8083) - Main attestation service
 - **Attestor Service** (port 8084) - Helper service for attestor-node
 
-> The [Docker Compose](./docker-compose.yaml) file is in the project root.
+> The [Docker Compose](https://github.com/primus-labs/primus-network-startup/blob/main/docker-compose.yaml) file is in the project root.
 
 You can configure the following environment variables in `docker-compose.yaml`:
 
-#### Required Variables
+##### Required Variables
 
 - `PRIVATE_KEY`: EVM private key (must start with `0x`)
 
-#### Network Configuration
+##### Network Configuration
 
 - `BASE_RPC_URL`: Base network RPC URL (default: https://sepolia.base.org)
 - `BASE_TASK_CONTRACT_ADDRESS`: Base network task contract address
@@ -63,13 +63,13 @@ You can configure the following environment variables in `docker-compose.yaml`:
 
 > Other parameters have sensible defaults.
 
-#### Start the services
+##### Start the services
 
 ```shell
 sudo ./run.sh start
 ```
 
-### 4. Configure SSL/TLS and Reverse Proxy
+#### 4. Configure SSL/TLS and Reverse Proxy
 
 > **Note: Before configuring SSL/TLS, point your domain to the server’s IP address.**
 
@@ -93,7 +93,7 @@ apt install nginx
    We recommend using [Certbot](https://certbot.eff.org/instructions?ws=nginx&os=snap).
 
 3. Configure Nginx
-   Configure Nginx to proxy requests to your services. See [attestor-node-https.conf](files/attestor-node-https.conf).
+   Configure Nginx to proxy requests to your services. See [attestor-node-https.conf](https://github.com/primus-labs/primus-network-startup/blob/main/files/attestor-node-https.conf).
 
 4. Enable the SSL configuration
 
@@ -106,10 +106,10 @@ nginx -s reload
 
 > The deployment is now complete.
 
-### 5. Register the Node
-> ***NOTE: Before registering a node, you must first contact the [primuslabs team]() to have the attestor added to the whitelist.***
+#### 5. Register the Node
+> ***NOTE: Before registering a node, you must first contact the [primuslabs team]([primuslabs team](https://discord.gg/YxJftNRxhh)) to have the attestor added to the whitelist.***
 
-#### 5.1 Set Environment Variables
+##### 5.1 Set Environment Variables
 
 Based on the chain where your node is located, run the following command:
 
@@ -148,15 +148,15 @@ ATTESTOR_URLS=<node-domain1>,<node-domain2>
 
 ***MAKE SURE `NODE_META_URL` IS PUBLICLY ACCESSIBLE ON THE INTERNET.***
 
-#### 5.2 Register the node
+##### 5.2 Register the node
 
 ```bash
 sudo ./run.sh register
 ```
 
-### 6. Monitoring and Logging
+#### 6. Monitoring and Logging
 
-#### View Logs
+##### View Logs
 
 ```bash
 # View all service logs
@@ -167,14 +167,14 @@ sudo ./run.sh logs attestor-node
 sudo ./run.sh logs attestor-service
 ```
 
-### 7. Update Services
+#### 7. Update Services
 
 ```bash
 # Update image tags to the latest versions in docker-compose.yaml
 sudo ./run.sh update
 ```
 
-### 8. Reset the Environment
+#### 8. Reset the Environment
 
 To reset the environment, including all data, run the following command:
 
