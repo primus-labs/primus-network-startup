@@ -107,8 +107,9 @@ nginx -s reload
 > The deployment is now complete.
 
 ### 5. Register the Node
+> ***NOTE: Before registering a node, you must first contact the [primuslabs team]() to have the attestor added to the whitelist.***
 
-#### 6.1 Set Environment Variables
+#### 5.1 Set Environment Variables
 
 Based on the chain where your node is located, run the following command:
 
@@ -148,8 +149,6 @@ ATTESTOR_URLS=<node-domain1>,<node-domain2>
 ***MAKE SURE `NODE_META_URL` IS PUBLICLY ACCESSIBLE ON THE INTERNET.***
 
 #### 5.2 Register the node
-
-> ***NOTE: Before registering a node, you must first contact the [primuslabs team]() to have the attestor added to the whitelist.***
 
 ```bash
 sudo ./run.sh register
