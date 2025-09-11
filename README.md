@@ -7,9 +7,6 @@ This guide explains how to deploy the Primus Network Attestor Node using Docker 
 | chain             | chainId | support | 
 |-------------------|---------|---------|
 | base-sepolia      | 84532   | ✅       | 
-| base-mainnet      | 8453    | ❌       | 
-| bnb-chain-testnet | 97      | ❌       | 
-| bnb-chain-mainnet | 56      | ❌       | 
 
 ## Prerequisites
 
@@ -151,6 +148,8 @@ ATTESTOR_URLS=<node-domain1>,<node-domain2>
 ***MAKE SURE `NODE_META_URL` IS PUBLICLY ACCESSIBLE ON THE INTERNET.***
 
 #### 5.2 Register the node
+
+> ***NOTE: Before registering a node, you must first contact the [primuslabs team]() to have the attestor added to the whitelist.***
 
 ```bash
 sudo ./run.sh register

@@ -54,7 +54,7 @@ apply_ssl_cert(){
   sudo nginx -s reload
 
   # Obtain certificate
-  sudo certbot certonly --nginx -d "$domain"
+  sudo certbot certonly --non-interactive --agree-tos --email "" --nginx -d "$domain"
 
   # Enable HTTPS config
   sudo cp ./files/attestor-node-https.conf /etc/nginx/conf.d/attestor-node-$domain-https.conf
