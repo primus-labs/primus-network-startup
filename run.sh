@@ -105,7 +105,19 @@ register_node(){
     echo "Please copy env_files/.env.<chain-name> to .env and edit it!"
     exit 1
   fi
+  docker pull primuslabs/attestor-tools:latest
   docker run --rm --env-file .env primuslabs/attestor-tools:latest node src/nodeMgt.js registerNode
+}
+
+
+unregister_node(){
+  # Check .env  exists
+  if [ ! -f .env ]; then
+    echo "Please copy env_files/.env.<chain-name> to .env and edit it!"
+    exit 1
+  fi
+  docker pull primuslabs/attestor-tools:latest
+  docker run --rm --env-file .env primuslabs/attestor-tools:latest node src/nodeMgt.js unRegisterNode
 }
 
 main(){
@@ -132,6 +144,9 @@ main(){
     register)
       register_node
       ;;
+    unregister)
+      unregister_node
+      ;;
     logs)
       logs "${2:-}"
       ;;
@@ -143,6 +158,7 @@ main(){
       echo "  $0 logs [service]        # Tail logs (optional: service name)"
       echo "  $0 cert <domain>         # Obtain SSL cert via Nginx + Certbot"
       echo "  $0 register              # Register node on-chain"
+      echo "  $0 unregister            # Unregister node on-chain"
       echo "  $0 clean                 # Remove all containers and volumes"
       exit 1
       ;;
