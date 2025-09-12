@@ -101,8 +101,8 @@ nginx -s reload
 
 > The deployment is now complete.
 
-#### 4. Register the Node
-> ***NOTE: Before registering a node, you must first contact the [primuslabs team](https://discord.gg/YxJftNRxhh) to have the attestor added to the whitelist.***
+#### 4. Manage the Node
+> ***NOTE: Before managing a node, you must first contact the [primuslabs team](https://discord.gg/YxJftNRxhh) to have the attestor added to the whitelist.***
 
 ##### 4.1 Set Environment Variables
 
@@ -148,6 +148,17 @@ ATTESTOR_URLS=<node-domain1>,<node-domain2>
 ```bash
 sudo ./run.sh register
 ```
+
+##### 4.3 Unregister the node
+
+> If you want to unregister from the Primus network, run the following command:
+
+***Please note***: Unregistering from the network means you will no longer receive any tasks and will not earn any income.
+
+```bash
+sudo ./run.sh unregister
+```
+
 
 #### 5. Monitoring and Logging
 
