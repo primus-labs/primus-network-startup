@@ -1,29 +1,68 @@
 ## Docker Deployment Guide
 
-This guide explains how to deploy the Primus Network Attestor Node using Docker in production environments.
+This guide explains how to deploy the Primus Network Attestor Node using TEE (provided by [Phala](https://cloud.phala.network/dashboard)) in production environments.
 
-### Support chains
+### 1. Supported Chains
 
-| chain             | chainId | support | 
+| Chain             | ChainId | Support | 
 |-------------------|---------|---------|
-| base-sepolia      | 84532   | ✅       | 
+| base-sepolia      | 84532   | ✅       |
 
-### Prerequisites
-- Hardware Requirements:
-    - **CPU**: 4+ cores (x86/64)
-    - **Memory**: 8GB+ RAM
-    - **Storage**: 100GB+ SSD storage
-    - **Network**: High-bandwidth, low-latency connection
-- OS: Ubuntu 22.04 LTS (Recommended)
-- [Docker](https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script)
-  and [Docker Compose](https://docs.docker.com/compose/install/standalone/) installed
-- Valid EVM private key (with sufficient balance)
-- A domain name
-- Reliable RPC endpoints for Base and BNB Chain (for example, [Alchemy](https://www.alchemy.com/))
+### 2. Deploy the Node using TEE
+#### 2.1 Register a Phala Account
 
-### Quick Start
+1. If you don't have a Phala account, you can register one [here](https://cloud.phala.network/register).
+2. [Setup credit card](https://cloud.phala.network/setup-billing) to pay for the billing.
 
-#### 1. Clone and Prepare
+#### 2.2 Deploy the Node
+
+1. Visit the [dashboard](https://cloud.phala.network/dashboard) and click `Deploy` to start a deployment process.
+![](images/deploy1.png)
+2. Please fill in the required fields:  
+- **Name**: This node's name 
+- **docker-compose.yml**: Copy [this](https://github.com/primus-labs/primus-network-startup/blob/main/docker-compose.yaml) file content.
+- **KMS Provider**: Only supports `Base`
+- **Node**: prod7
+- **Instance Type**: Use `Large TDX Instance(4 vCPU, 8 GB)`
+- **Storage**: Larger than `20 GB`
+- **Operating System**: `dstack-0.5.3`
+- **Encrypted Secrets**: Please set `PRIVATE_KEY`, `BASE_RPC_URL`, `BNB_RPC_URL`. `PRIVATE_KEY` should start with `0x` and please save it, you will use it to register the node.
+![](images/deploy-parameters.png)
+
+3. Click `Deploy` to start the deployment process.
+4. Click the detail button to view the deployment status.
+![](images/click_detail.png)
+5. If everything is successful, you will see the following services:
+![](images/start_success.png)
+6. Click the `attestor-node` service to view the node's log. You will find the attestor's address in the log. Please save this address as you will need it when registering the node.
+![](images/attestor_address.png)
+7. Click the `Network` tab to check your `Network Information`. Please save this `endpoint` (18080) for registering the node.
+![](images/endpoint.png)
+8. Copy the `endpoint` from step 7 to your browser and you will see the following information:
+![](images/endpoint-success.png)
+If you see `Hi, PRIMUS NETWORK!`, it means you have successfully deployed the node.
+
+
+### 3. Update the Node
+First you need to update the compose code file, please follow the steps below:
+
+1. Click `...` button and choose `update code` button:
+![](images/update_code1.png)
+
+2. Copy [this](https://github.com/primus-labs/primus-network-startup/blob/main/docker-compose.yaml) file content and update compose code.
+![](images/update_code2.png)
+
+After click `Save changes` button, wallet (such as metamask) will prompt you to `confirm the update`.
+
+
+### 4. Manage the Node
+> ***NOTE: Before managing a node, you must first contact the [primuslabs team](https://discord.gg/YxJftNRxhh) to have the attestor added to the whitelist.***
+
+#### 4.1 Prerequisites
+
+Make sure Docker is installed on your system.
+
+#### 4.2 Clone and Prepare
 
 ```bash
 git clone https://github.com/primus-labs/primus-network-startup.git
@@ -31,80 +70,7 @@ cd primus-network-startup
 chmod +x ./run.sh
 ```
 
-#### 2. Deploy the Node with Docker Compose
-
-You can run the node with Docker Compose. This starts all services:
-
-- **Redis** (port 6379) - Caching storage
-- **Attestor Node** (ports 8080-8083) - Main attestation service
-- **Attestor Service** (port 8084) - Helper service for attestor-node
-
-> The [Docker Compose](https://github.com/primus-labs/primus-network-startup/blob/main/docker-compose.yaml) file is in the project root.
-
-You can configure the following environment variables in `docker-compose.yaml`:
-
-##### Required Variables
-
-- `PRIVATE_KEY`: EVM private key (must start with `0x`)
-
-##### Network Configuration
-
-- `BASE_RPC_URL`: Base network RPC URL (default: https://sepolia.base.org)
-- `BASE_TASK_CONTRACT_ADDRESS`: Base network task contract address
-- `BASE_CHAIN_ID`: Base network chain ID (default: 84532)
-- `BNB_CHAIN_RPC_URL`: BNB Chain RPC URL (default: https://bsc-testnet.therpc.io)
-- `BNB_CHAIN_TASK_CONTRACT_ADDRESS`: BNB Chain task contract address
-- `BNB_CHAIN_CHAIN_ID`: BNB Chain chain ID (default: 97)
-
-> Other parameters have sensible defaults.
-
-##### Start the services
-
-```shell
-sudo ./run.sh start
-```
-
-#### 3. Configure SSL/TLS and Reverse Proxy
-
-> **Note: Before configuring SSL/TLS, point your domain to the server’s IP address.**
-
-If your OS is Ubuntu, you can run the following command to complete all steps:
-
-```shell
-sudo ./run.sh cert <your_domain>
-```
-
-Otherwise, you can manually configure SSL/TLS and the reverse proxy with the steps below:
-
-1. Install Nginx
-
-```shell
-# Ubuntu
-# You can install Nginx on other operating systems as appropriate.
-apt install nginx 
-```
-
-2. Obtain an SSL/TLS certificate
-   We recommend using [Certbot](https://certbot.eff.org/instructions?ws=nginx&os=snap).
-
-3. Configure Nginx
-   Configure Nginx to proxy requests to your services. See [attestor-node-https.conf](https://github.com/primus-labs/primus-network-startup/blob/main/files/attestor-node-https.conf).
-
-4. Enable the SSL configuration
-
-```shell
-# Test the Nginx configuration
-nginx -t
-# Reload Nginx to apply the SSL configuration
-nginx -s reload
-```
-
-> The deployment is now complete.
-
-#### 4. Manage the Node
-> ***NOTE: Before managing a node, you must first contact the [primuslabs team](https://discord.gg/YxJftNRxhh) to have the attestor added to the whitelist.***
-
-##### 4.1 Set Environment Variables
+#### 4.3 Set Environment Variables
 
 Based on the chain where your node is located, run the following command:
 
@@ -115,16 +81,18 @@ cp env_files/.env.<chain-name> .env
 Then set your private key, RPC URL, and other parameters:
 
 ```bash
+# This private key is from the above while deploying the node
 PRIVATE_KEY=0x
 RPC=<Your RPC URL>
 NODE_CONTRACT_ADDRESS=
-# Attestor's address to sign attestations
+# Attestor's address to sign attestations, this address is from above 'attestor-node' logs
 ATTESTOR_ADDRESS=
 # Address to receive rewards and fees
 RECIPIENT_ADDRESS=
 # Attestor node metadata
 NODE_META_URL=https://api-dev.primuslabs.xyz/node1-meta.json
 # Attestor node domain names. If you have multiple URLs, separate them with commas.
+# This domain is from endpoint above, and remove https://, just the domain name
 # Example: network-node1.primuslabs.xyz,test-network-node1-2.primuslabs.xyz
 ATTESTOR_URLS=<node-domain1>,<node-domain2>
 ```
@@ -143,13 +111,13 @@ ATTESTOR_URLS=<node-domain1>,<node-domain2>
 
 ***MAKE SURE `NODE_META_URL` IS PUBLICLY ACCESSIBLE ON THE INTERNET.***
 
-##### 4.2 Register the node
+#### 4.4 Register the Node
 
 ```bash
 sudo ./run.sh register
 ```
 
-##### 4.3 Unregister the node
+#### 4.5 Unregister the Node
 
 > If you want to unregister from the Primus network, run the following command:
 
@@ -157,35 +125,4 @@ sudo ./run.sh register
 
 ```bash
 sudo ./run.sh unregister
-```
-
-
-#### 5. Monitoring and Logging
-
-##### View Logs
-
-```bash
-# View all service logs
-sudo ./run.sh logs
-
-# View specific service logs
-sudo ./run.sh logs attestor-node
-sudo ./run.sh logs attestor-service
-```
-
-#### 6. Update Services
-
-```bash
-# Update image tags to the latest versions in docker-compose.yaml
-sudo ./run.sh update
-```
-
-#### 7. Reset the Environment
-
-To reset the environment, including all data, run the following command:
-
-```bash
-# Remove volumes (WARNING: This will delete all data)
-sudo ./run.sh clean
-sudo ./run.sh start
 ```

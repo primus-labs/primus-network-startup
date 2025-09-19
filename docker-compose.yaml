@@ -1,10 +1,9 @@
 x-common-env: &service_env
   PRIVATE_KEY: ${PRIVATE_KEY}
-  BASE_RPC_URL: https://sepolia.base.org
-  # Base testnet : 0xC02234058caEaA9416506eABf6Ef3122fCA939E8
+  BASE_RPC_URL: ${BASE_RPC_URL}
   BASE_TASK_CONTRACT_ADDRESS: 0xC02234058caEaA9416506eABf6Ef3122fCA939E8
   BASE_CHAIN_ID: 84532
-  BNB_CHAIN_RPC_URL: https://bsc-testnet.therpc.io
+  BNB_CHAIN_RPC_URL: ${BNB_RPC_URL}
   BNB_CHAIN_TASK_CONTRACT_ADDRESS: 0x516Ac618A985183968eC470614747CDED18DB929
   BNB_CHAIN_CHAIN_ID: 97
 
@@ -13,7 +12,6 @@ x-service-base: &service_base
   restart: always
   networks:
     - attestor-network
-  environment: *service_env
 
 services:
   redis:
@@ -39,7 +37,13 @@ services:
       <<: *service_env
       APP_NAME: attestor-node
       ATTESTOR_ONCHAIN_TOOLKIT_URL: http://attestor-service:8084
+      DSTACK_PROVIDER_URL: http://dstack-provider:8085
       REDIS_HOST: redis
+      KMS_PROVIDER: DSTACK_KMS
+      WAIT_REPORT_RESULT_RECIPIENT: false
+      logging.level.xyz.primuslabs: DEBUG
+    volumes:
+      - /var/run/dstack.sock:/var/run/dstack.sock
 
   attestor-service:
     <<: *service_base
@@ -54,17 +58,24 @@ services:
       APP_NAME: attestor-service
       REDIS_HOST: redis
 
+  dstack-provider:
+    <<: *service_base
+    image: primuslabs/dstack-provider:latest
+    container_name: dstack-provider
+    ports:
+      - "8085"
+    volumes:
+      - /var/run/dstack.sock:/var/run/dstack.sock
+
   attestor-proxy:
+    <<: *service_base
     image: primuslabs/attestor-proxy:latest
     container_name: attestor-proxy
     ports:
       - "18080:80"
-    restart: always
     environment:
       ATTESTOR_SERVICE_HOST: attestor-service
       ATTESTOR_NODE_HOST: attestor-node
-    networks:
-      - attestor-network
 
 networks:
   attestor-network:
