@@ -1,4 +1,21 @@
-## Docker Deployment Guide
+# TEE Deployment Guide
+
+## 目录
+- [1. Supported Chains](#1-supported-chains)
+- [2. Deploy the Node using TEE](#2-deploy-the-node-using-tee)
+  - [2.1 Register a Phala Account](#21-register-a-phala-account)
+  - [2.2 Deploy the Node](#22-deploy-the-node)
+- [3. Update the Node](#3-update-the-node)
+- [4. Manage the Node](#4-manage-the-node)
+  - [4.1 Prerequisites](#41-prerequisites)
+  - [4.2 Clone and Prepare](#42-clone-and-prepare)
+  - [4.3 Set Environment Variables](#43-set-environment-variables)
+  - [4.4 Register the Node](#44-register-the-node)
+  - [4.5 Unregister the Node](#45-unregister-the-node)
+- [5. Monitoring and Logging](#5-monitoring-and-logging)
+  - [5.1 View Logs](#51-view-logs)
+- [6. Update Services](#6-update-services)
+- [7. Reset the Environment](#7-reset-the-environment)
 
 This guide explains how to deploy the Primus Network Attestor Node using TEE (provided by [Phala](https://cloud.phala.network/dashboard)) in production environments.
 
