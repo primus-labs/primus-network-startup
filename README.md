@@ -1,4 +1,4 @@
-## Docker Deployment Guide
+# TEE Deployment Guide
 
 This guide explains how to deploy the Primus Network Attestor Node using TEE (provided by [Phala](https://cloud.phala.network/dashboard)) in production environments.
 
