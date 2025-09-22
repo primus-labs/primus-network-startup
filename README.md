@@ -12,7 +12,6 @@ This guide explains how to deploy the Primus Network Attestor Node using TEE (pr
 #### 2.1 Register a Phala Account
 
 1. If you don't have a Phala account, you can register one [here](https://cloud.phala.network/register).
-2. [Setup credit card](https://cloud.phala.network/setup-billing) to pay for the billing.
 
 #### 2.2 Deploy the Node
 
@@ -34,35 +33,25 @@ This guide explains how to deploy the Primus Network Attestor Node using TEE (pr
 ![](images/click_detail.png)
 5. If everything is successful, you will see the following services:
 ![](images/start_success.png)
-6. Click the `attestor-node` service to view the node's log. You will find the attestor's address in the log. ***Please save this address as you will need it when registering the node***.
+
+<a name="attestor_node_address"></a>
+6. Click the `attestor-node` service to view the node's log. You will find the attestor's address in the log. ***Please save this address as you will need it when [registering the node](#34-register-the-node)***.
 ![](images/attestor_address.png)
-7. Click the `Network` tab to check your `Network Information`. ***Please save this `endpoint` (18080) for registering the node***.
+7. Click the `Network` tab to check your `Network Information`. ***Please save this `endpoint` (18080) for [registering the node](#34-register-the-node)***.
 ![](images/endpoint.png)
+<a name="attestor_endpoint"></a>
 8. Copy the `endpoint` from step 7 to your browser and you will see the following information:
 ![](images/endpoint-success.png)
 If you see `Hi, PRIMUS NETWORK!`, it means you have successfully deployed the node.
 
-
-### 3. Update the Node
-First you need to update the compose code file, please follow the steps below:
-
-1. Click `...` button and choose `update code` button:
-![](images/update_code1.png)
-
-2. Copy [this](https://github.com/primus-labs/primus-network-startup/blob/main/docker-compose.yaml) file content and update compose code.
-![](images/update_code2.png)
-
-After click `Save changes` button, wallet (such as metamask) will prompt you to `confirm the update`.
-
-
-### 4. Manage the Node
+### 3. Manage the Node
 > ***NOTE: Before managing a node, you must first contact the [primuslabs team](https://discord.gg/YxJftNRxhh) to have the attestor added to the whitelist.***
 
-#### 4.1 Prerequisites
+#### 3.1 Prerequisites
 
 Make sure Docker is installed on your system.
 
-#### 4.2 Clone and Prepare
+#### 3.2 Clone and Prepare
 
 ```bash
 git clone https://github.com/primus-labs/primus-network-startup.git
@@ -70,7 +59,7 @@ cd primus-network-startup
 chmod +x ./run.sh
 ```
 
-#### 4.3 Set Environment Variables
+#### 3.3 Set Environment Variables
 
 Based on the chain where your node is located, run the following command:
 
@@ -81,24 +70,21 @@ cp env_files/.env.<chain-name> .env
 Then set your private key, RPC URL, and other parameters:
 
 ```bash
-# This private key is from the above while deploying the node
 PRIVATE_KEY=0x
 RPC=<Your RPC URL>
 NODE_CONTRACT_ADDRESS=
-# Attestor's address to sign attestations, this address is from above 'attestor-node' logs
 ATTESTOR_ADDRESS=
-# Address to receive rewards and fees
 RECIPIENT_ADDRESS=
-# Attestor node metadata
+ATTESTOR_URLS=<node-domain1>
 NODE_META_URL=https://api-dev.primuslabs.xyz/node1-meta.json
-# Attestor node domain names. If you have multiple URLs, separate them with commas.
-# This domain is from endpoint above, and remove https://, just the domain name
-# Example: network-node1.primuslabs.xyz,test-network-node1-2.primuslabs.xyz
-ATTESTOR_URLS=<node-domain1>,<node-domain2>
 ```
-
-`NODE_META_URL` should point to a JSON document containing the following fields:
-
+1. **PRIVATE_KEY**: This private key is from the above while deploying the node
+2. **RPC**: rpc for the chain.
+3. **NODE_CONTRACT_ADDRESS**:  This is the address of the node contract. You can use the default value from `env_files/.env.<chain-name>`.
+4. **ATTESTOR_ADDRESS**: Attestor's address to sign attestations, this address is from above [attestor-node](#attestor_node_address).
+5. **RECIPIENT_ADDRESS**：Address to receive rewards and fees
+6. **ATTESTOR_URLS**: Attestor node domain names.  This domain is from [endpoint above](#attestor_endpoint), and remove `https://`, just the domain name like: `dd26063786a0fccd8e4cc499374b4515d4df1e87-18080.dstack-base-prod7.phala.network`.If you have multiple URLs, separate them with commas.
+7. **NODE_META_URL**: Attestor node metadata url. The metadata should be a JSON document containing the following fields:
 ```json
 {
   "name": "Your node name",
@@ -108,21 +94,10 @@ ATTESTOR_URLS=<node-domain1>,<node-domain2>
   "logo": ""
 }
 ```
-
 ***MAKE SURE `NODE_META_URL` IS PUBLICLY ACCESSIBLE ON THE INTERNET.***
 
-#### 4.4 Register the Node
+#### 3.4 Register the Node
 
 ```bash
 sudo ./run.sh register
-```
-
-#### 4.5 Unregister the Node
-
-> If you want to unregister from the Primus network, run the following command:
-
-***Please note***: Unregistering from the network means you will no longer receive any tasks and will not earn any income.
-
-```bash
-sudo ./run.sh unregister
 ```
