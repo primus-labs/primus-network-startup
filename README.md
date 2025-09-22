@@ -15,33 +15,32 @@ This guide explains how to deploy the Primus Network Attestor Node using TEE (pr
 
 #### 2.2 Deploy the Node
 
-1. Visit the [dashboard](https://cloud.phala.network/dashboard) and click `Deploy` to start a deployment process.
+##### 1. Visit the [dashboard](https://cloud.phala.network/dashboard) and click `Deploy` to start a deployment process.
 ![](images/deploy1.png)
-2. Please fill in the required fields:  
-- **Name**: This node's name 
+##### 2. Please fill in the required fields:
+- **Name**: This node's name
 - **docker-compose.yml**: Copy [this](https://github.com/primus-labs/primus-network-startup/blob/main/docker-compose.yaml) file content.
 - **KMS Provider**: Only supports `Base`
 - **Node**: prod7
 - **Instance Type**: Use `Large TDX Instance(4 vCPU, 8 GB)`
 - **Storage**: Larger than `20 GB`
 - **Operating System**: `dstack-0.5.3`
-<a name='owner_private_key'></a>
 - **Encrypted Secrets**: Please set `PRIVATE_KEY`, `BASE_RPC_URL`. `PRIVATE_KEY` should start with `0x` and please save it, you will use it to register the node.
-![](images/deploy-parameters.png)
+  ![](images/deploy-parameters.png)
 
-3. Click `Deploy` to start the deployment process.
-4. Click the detail button to view the deployment status.
+##### 3. Click `Deploy` to start the deployment process.
+##### 4. Click the detail button to view the deployment status.
 ![](images/click_detail.png)
-5. If everything is successful, you will see the following services:
+##### 5. If everything is successful, you will see the following services:
 ![](images/start_success.png)
 
-<a name="attestor_node_address"></a>
-6. Click the `attestor-node` service to view the node's log. You will find the attestor's address in the log. ***Please save this address as you will need it when [registering the node](#34-register-the-node)***.
+##### 6. Click the `attestor-node` service to view the node's log. You will find the attestor's address in the log. ***Please save this address as you will need it when [registering the node](#34-register-the-node)***.
 ![](images/attestor_address.png)
-<a name="attestor_endpoint"></a>
-7. Click the `Network` tab to check your `Network Information`. ***Please save this `endpoint` (18080) for [registering the node](#34-register-the-node)***.
+
+##### 7. Click the `Network` tab to check your `Network Information`. ***Please save this `endpoint` (18080) for [registering the node](#34-register-the-node)***.
 ![](images/endpoint.png)
-8. Copy the `endpoint` from step 7 to your browser and you will see the following information:
+
+##### 8. Copy the `endpoint` from step 7 to your browser and you will see the following information:
 ![](images/endpoint-success.png)
 If you see `Hi, PRIMUS NETWORK!`, it means you have successfully deployed the node.
 
@@ -79,12 +78,12 @@ RECIPIENT_ADDRESS=
 ATTESTOR_URLS=<node-domain1>
 NODE_META_URL=https://api-dev.primuslabs.xyz/node1-meta.json
 ```
-1. **PRIVATE_KEY**: This private key is from the [above](#owner_private_key) while deploying the node. And must have enough balance to pay for the transaction.
+1. **PRIVATE_KEY**: This private key is from the [above](#2-please-fill-in-the-required-fields) while deploying the node. And must have enough balance to pay for the transaction.
 2. **RPC**: rpc for the chain.
 3. **NODE_CONTRACT_ADDRESS**:  This is the address of the node contract. You can use the default value from `env_files/.env.<chain-name>`.
-4. **ATTESTOR_ADDRESS**: Attestor's address to sign attestations, this address is from above [attestor-node](#attestor_node_address).
+4. **ATTESTOR_ADDRESS**: Attestor's address to sign attestations, this address is from above [attestor-node](#6-click-the-attestor-node-service-to-view-the-nodes-log-you-will-find-the-attestors-address-in-the-log-please-save-this-address-as-you-will-need-it-when-registering-the-node).
 5. **RECIPIENT_ADDRESS**：Address to receive rewards and fees
-6. **ATTESTOR_URLS**: Attestor node domain names.  This domain is from [endpoint above](#attestor_endpoint), and remove `https://`, just the domain name like: `dd26063786a0fccd8e4cc499374b4515d4df1e87-18080.dstack-base-prod7.phala.network`.If you have multiple URLs, separate them with commas.
+6. **ATTESTOR_URLS**: Attestor node domain names.  This domain is from [endpoint above](#7-click-the-network-tab-to-check-your-network-information-please-save-this-endpoint-18080-for-registering-the-node), and remove `https://`, just the domain name like: `dd26063786a0fccd8e4cc499374b4515d4df1e87-18080.dstack-base-prod7.phala.network`.If you have multiple URLs, separate them with commas.
 7. **NODE_META_URL**: Attestor node metadata url. The metadata should be a JSON document containing the following fields:
 ```json
 {
