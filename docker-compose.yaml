@@ -3,9 +3,6 @@ x-common-env: &service_env
   BASE_RPC_URL: ${BASE_RPC_URL}
   BASE_TASK_CONTRACT_ADDRESS: 0xC02234058caEaA9416506eABf6Ef3122fCA939E8
   BASE_CHAIN_ID: 84532
-  BNB_CHAIN_RPC_URL: ${BNB_RPC_URL}
-  BNB_CHAIN_TASK_CONTRACT_ADDRESS: 0x516Ac618A985183968eC470614747CDED18DB929
-  BNB_CHAIN_CHAIN_ID: 97
 
 # Do not modify the following parameters unless you need to specify the port
 x-service-base: &service_base
