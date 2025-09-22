@@ -37,9 +37,9 @@ This guide explains how to deploy the Primus Network Attestor Node using TEE (pr
 <a name="attestor_node_address"></a>
 6. Click the `attestor-node` service to view the node's log. You will find the attestor's address in the log. ***Please save this address as you will need it when [registering the node](#34-register-the-node)***.
 ![](images/attestor_address.png)
+<a name="attestor_endpoint"></a>
 7. Click the `Network` tab to check your `Network Information`. ***Please save this `endpoint` (18080) for [registering the node](#34-register-the-node)***.
 ![](images/endpoint.png)
-<a name="attestor_endpoint"></a>
 8. Copy the `endpoint` from step 7 to your browser and you will see the following information:
 ![](images/endpoint-success.png)
 If you see `Hi, PRIMUS NETWORK!`, it means you have successfully deployed the node.
