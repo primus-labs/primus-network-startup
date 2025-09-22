@@ -79,7 +79,7 @@ RECIPIENT_ADDRESS=
 ATTESTOR_URLS=<node-domain1>
 NODE_META_URL=https://api-dev.primuslabs.xyz/node1-meta.json
 ```
-1. **PRIVATE_KEY**: This private key is from the [above](#owner_private_key) while deploying the node
+1. **PRIVATE_KEY**: This private key is from the [above](#owner_private_key) while deploying the node. And must have enough balance to pay for the transaction.
 2. **RPC**: rpc for the chain.
 3. **NODE_CONTRACT_ADDRESS**:  This is the address of the node contract. You can use the default value from `env_files/.env.<chain-name>`.
 4. **ATTESTOR_ADDRESS**: Attestor's address to sign attestations, this address is from above [attestor-node](#attestor_node_address).
