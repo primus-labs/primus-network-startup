@@ -45,7 +45,7 @@ This guide explains how to deploy the Primus Network Attestor Node using TEE (pr
 ![](images/endpoint-success.png)
 If you see `Hi, PRIMUS NETWORK!`, it means you have successfully deployed the node.
 
-### 3. Manage the Node
+### 3. Register the Node
 > ***NOTE: Before managing a node, you must first contact the [primuslabs team](https://discord.gg/YxJftNRxhh) to have the attestor added to the whitelist.***
 
 #### 3.1 Prerequisites
