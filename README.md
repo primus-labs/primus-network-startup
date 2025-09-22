@@ -25,7 +25,8 @@ This guide explains how to deploy the Primus Network Attestor Node using TEE (pr
 - **Instance Type**: Use `Large TDX Instance(4 vCPU, 8 GB)`
 - **Storage**: Larger than `20 GB`
 - **Operating System**: `dstack-0.5.3`
-- **Encrypted Secrets**: Please set `PRIVATE_KEY`, `BASE_RPC_URL`, `BNB_RPC_URL`. `PRIVATE_KEY` should start with `0x` and please save it, you will use it to register the node.
+<a name='owner_private_key'></a>
+- **Encrypted Secrets**: Please set `PRIVATE_KEY`, `BASE_RPC_URL`. `PRIVATE_KEY` should start with `0x` and please save it, you will use it to register the node.
 ![](images/deploy-parameters.png)
 
 3. Click `Deploy` to start the deployment process.
@@ -78,7 +79,7 @@ RECIPIENT_ADDRESS=
 ATTESTOR_URLS=<node-domain1>
 NODE_META_URL=https://api-dev.primuslabs.xyz/node1-meta.json
 ```
-1. **PRIVATE_KEY**: This private key is from the above while deploying the node
+1. **PRIVATE_KEY**: This private key is from the [above](#owner_private_key) while deploying the node
 2. **RPC**: rpc for the chain.
 3. **NODE_CONTRACT_ADDRESS**:  This is the address of the node contract. You can use the default value from `env_files/.env.<chain-name>`.
 4. **ATTESTOR_ADDRESS**: Attestor's address to sign attestations, this address is from above [attestor-node](#attestor_node_address).
