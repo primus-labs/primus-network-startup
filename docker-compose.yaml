@@ -38,7 +38,7 @@ services:
       REDIS_HOST: redis
       KMS_PROVIDER: DSTACK_KMS
       WAIT_REPORT_RESULT_RECIPIENT: false
-      logging.level.xyz.primuslabs: DEBUG
+      logging.level.xyz.primuslabs: ${BASE_RPC_URL:-INFO}
     volumes:
       - /var/run/dstack.sock:/var/run/dstack.sock
 
