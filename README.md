@@ -24,7 +24,7 @@ This guide explains how to deploy the Primus Network Attestor Node using TEE (pr
 - **Node**: `prod7`
 - **Instance Type**: Use `Large TDX Instance(4 vCPU, 8 GB)`
 - **Storage**: Larger than `20 GB`
-- **Operating System**: `dstack-0.5.4`
+- **Operating System**: `dstack-0.5.4.1`
 - **Encrypted Secrets**: Please set `PRIVATE_KEY`, `BASE_RPC_URL`. `PRIVATE_KEY` should start with `0x`. `PRIVATE_KEY` acts as the owner of the node, used to report results, and will also be used to [register the node](#3-register-the-node).
   ![](images/deploy-parameters.png)
 
