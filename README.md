@@ -18,9 +18,9 @@ This guide explains how to deploy the Primus Network Attestor Node using TEE (pr
 ##### 1. Visit the [deployment template](https://cloud.phala.network/templates/primus-attestor-node) and click `Deploy` button.  
 ![](images/template_deploy_start.png)
 ##### 2. Please fill in the required fields:
-- **Name**: This node's name, you can use default or customize it.
+- **Name**: This node's name, ***you should use the default name***.
 - **KMS Provider**: Only supports `Base`
-- **Node**: `prod9`
+- **Node**: `prod7`
 - **Instance Type**: Use `Large TDX Instance(4 vCPU, 8 GB)`
 - **Storage**: Larger than `20 GB`
 - **Operating System**: `dstack-0.5.4.1`
