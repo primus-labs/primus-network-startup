@@ -1,8 +1,8 @@
 x-common-env: &service_env
   PRIVATE_KEY: ${PRIVATE_KEY}
   BASE_RPC_URL: ${BASE_RPC_URL}
-  BASE_TASK_CONTRACT_ADDRESS: 0xC02234058caEaA9416506eABf6Ef3122fCA939E8
-  BASE_CHAIN_ID: 84532
+  BASE_TASK_CONTRACT_ADDRESS: ${BASE_TASK_CONTRACT_ADDRESS}
+  BASE_CHAIN_ID: ${BASE_CHAIN_ID}
 
 # Do not modify the following parameters unless you need to specify the port
 x-service-base: &service_base
@@ -21,7 +21,7 @@ services:
 
   attestor-node:
     <<: *service_base
-    image: primuslabs/attestor-node:latest
+    image: primuslabs/attestor-node:${IMAGE_TAG}
     container_name: attestor-node
     depends_on:
       - redis
@@ -38,13 +38,13 @@ services:
       REDIS_HOST: redis
       KMS_PROVIDER: DSTACK_KMS
       WAIT_REPORT_RESULT_RECIPIENT: false
-      logging.level.xyz.primuslabs: INFO
+      logging.level.xyz.primuslabs: DEBUG
     volumes:
       - /var/run/dstack.sock:/var/run/dstack.sock
 
   attestor-service:
     <<: *service_base
-    image: primuslabs/attestor-service:latest
+    image: primuslabs/attestor-service:${IMAGE_TAG}
     container_name: attestor-service
     depends_on:
       - redis
@@ -57,7 +57,7 @@ services:
 
   dstack-provider:
     <<: *service_base
-    image: primuslabs/dstack-provider:latest
+    image: primuslabs/dstack-provider:${IMAGE_TAG}
     container_name: dstack-provider
     ports:
       - "8085"
@@ -66,7 +66,7 @@ services:
 
   attestor-proxy:
     <<: *service_base
-    image: primuslabs/attestor-proxy:latest
+    image: primuslabs/attestor-proxy:${IMAGE_TAG}
     container_name: attestor-proxy
     ports:
       - "18080:80"
