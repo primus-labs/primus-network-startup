@@ -6,7 +6,7 @@ This guide explains how to deploy the Primus Network Attestor Node using TEE (pr
 
 | Chain             | ChainId | Support | 
 |-------------------|---------|---------|
-| base-sepolia      | 84532   | ✅       |
+| base-sepolia      | 84532   | ✅      |
 
 ### 2. Deploy the Node using TEE
 #### 2.1 Register a Phala Account
@@ -15,17 +15,16 @@ This guide explains how to deploy the Primus Network Attestor Node using TEE (pr
 
 #### 2.2 Deploy the Node
 
-##### 1. Visit the [dashboard](https://cloud.phala.network/dashboard) and click `Deploy` to start a deployment process.
-![](images/deploy1.png)
+##### 1. Visit the [deployment template](https://cloud.phala.network/templates/primus-attestor-node) and click `Deploy` button.  
+![](images/template_deploy_start.png)
 ##### 2. Please fill in the required fields:
-- **Name**: This node's name
-- **docker-compose.yml**: Copy [this](https://github.com/primus-labs/primus-network-startup/blob/main/docker-compose.yaml) file content.
+- **Name**: This node's name, you can use default or customize it.
 - **KMS Provider**: Only supports `Base`
-- **Node**: `prod7`
+- **Node**: `prod9`
 - **Instance Type**: Use `Large TDX Instance(4 vCPU, 8 GB)`
 - **Storage**: Larger than `20 GB`
 - **Operating System**: `dstack-0.5.4.1`
-- **Encrypted Secrets**: Please set `PRIVATE_KEY`, `BASE_RPC_URL`. `PRIVATE_KEY` should start with `0x`. `PRIVATE_KEY` acts as the owner of the node, used to report results, and will also be used to [register the node](#3-register-the-node).
+- **Encrypted Secrets**: Please set `PRIVATE_KEY`, `BASE_RPC_URL`. `PRIVATE_KEY` should start with `0x`. `PRIVATE_KEY` acts as the owner of the node, used to report results, and will also be used to [register the node](#3-register-the-node). `BASE_TASK_CONTRACT_ADDRESS`,`BASE_CHAIN_ID` and `IMAGE_TAG` please use the default values.
   ![](images/deploy-parameters.png)
 
 ##### 3. Click `Deploy` to start the deployment process.
