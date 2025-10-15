@@ -35,7 +35,11 @@ by [Phala](https://cloud.phala.network/dashboard)) in production environments.
   acts as the owner of the node, used to report results, and will also be used
   to [register the node](#3-register-the-node). `BASE_TASK_CONTRACT_ADDRESS`,`BASE_CHAIN_ID` and `IMAGE_TAG` please use
   the default values.
+
+> ***NOTE***: If you want to deploy `Primus Network` on testnet , please modify `BASE_TASK_CONTRACT_ADDRESS`,`BASE_CHAIN_ID` and `BASE_RPC_URL` .These values can be found under [Supported Chains](#1-supported-chains).
+
   ![](images/deploy-parameters.png)
+
 
 ##### 3. Click `Deploy` to start the deployment process.
 
