@@ -9,6 +9,7 @@ by [Phala](https://cloud.phala.network/dashboard)) in production environments.
 |--------------|---------|--------------------------------------------|---------|
 | base-mainnet | 8453    | 0x151cb5eD5D10A42B607bB172B27BDF6F884b9707 | ✅       |
 | base-sepolia | 84532   | 0xC02234058caEaA9416506eABf6Ef3122fCA939E8 | ✅       |
+| hashkey-chain-testnet | 133     | 0x6588a24D34C881cF10c8DA77e282f6E1fBc262C7 | ✅       |
 
 ### 2. Deploy the Node using TEE
 
