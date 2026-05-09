@@ -1,8 +1,6 @@
 x-common-env: &service_env
   PRIVATE_KEY: ${PRIVATE_KEY}
-  BASE_RPC_URL: ${BASE_RPC_URL}
-  BASE_TASK_CONTRACT_ADDRESS: ${BASE_TASK_CONTRACT_ADDRESS}
-  BASE_CHAIN_ID: ${BASE_CHAIN_ID}
+  NETWORK_CHAINS: ${NETWORK_CHAINS}
 
 # Do not modify the following parameters unless you need to specify the port
 x-service-base: &service_base
