@@ -21,10 +21,10 @@ by [Phala](https://cloud.phala.network/dashboard)) in production environments.
 
 #### 2.2 Deploy the Node
 
-##### 1. Visit the [Workspace Home](https://cloud.phala.com/) and click
+##### 1. Visit the [deployment template](https://cloud.phala.network/templates/primus-attestor-node) and click
 `Deploy` button.
 
-![](./images/deploy-start.png)
+![](images/template_deploy_start.png)
 
 ##### 2. Please fill in the required fields:
 
