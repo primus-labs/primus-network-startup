@@ -168,9 +168,11 @@ Use this to mark the node as exiting and automatically unstake the current activ
 sudo ./run.sh requestExit base-mainnet
 ```
 
+After `requestExit` succeeds, wait for the chain's `unstakeCooldown` period before running `withdrawNodeStakeAndUnregister`.
+
 ##### 3.4.3 Withdraw Node Stake and Unregister
 
-Use this after the unstake cooldown has elapsed to withdraw the unlocking stake and then unregister the node.
+Use this only after the `unstakeCooldown` period has elapsed. This withdraws the unlocking stake and then unregisters the node.
 
 ```bash
 sudo ./run.sh withdrawNodeStakeAndUnregister base-mainnet
