@@ -156,6 +156,8 @@ Pass the chain name to make `run.sh` load `env_files/.env.<chain-name>` directly
 
 Use this when the node is not yet registered and you want to register it and stake the minimum required amount in one step.
 
+> The owner wallet must have at least 10000 PRIME available for staking.
+
 ```bash
 sudo ./run.sh registerAndStake base-mainnet
 ```
