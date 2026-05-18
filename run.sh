@@ -2,6 +2,10 @@
 
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DEFAULT_ENV_FILE="$SCRIPT_DIR/.env"
+ENV_DIR="$SCRIPT_DIR/env_files"
+
 check_environment(){
   # Check docker installed
   if ! command -v docker >/dev/null 2>&1; then
@@ -18,6 +22,37 @@ check_environment(){
     echo "Docker Compose is not installed, please install it!"
     exit 1
   fi
+}
+
+ensure_env_file(){
+  local env_file="$1"
+
+  if [[ ! -f "$env_file" ]]; then
+    echo "Environment file not found: $env_file"
+    exit 1
+  fi
+}
+
+resolve_env_file(){
+  local chain_name="${1:-}"
+
+  if [[ -n "$chain_name" ]]; then
+    local chain_env_file="$ENV_DIR/.env.$chain_name"
+    ensure_env_file "$chain_env_file"
+    echo "$chain_env_file"
+    return
+  fi
+
+  ensure_env_file "$DEFAULT_ENV_FILE"
+  echo "$DEFAULT_ENV_FILE"
+}
+
+run_attestor_tools(){
+  local command_name="$1"
+  local env_file="$2"
+
+  docker pull primuslabs/attestor-tools:latest
+  docker run --rm --env-file "$env_file" primuslabs/attestor-tools:latest node src/nodeMgt.js "$command_name"
 }
 
 apply_ssl_cert(){
@@ -100,24 +135,34 @@ logs(){
 }
 
 register_node(){
-  # Check .env  exists
-  if [ ! -f .env ]; then
-    echo "Please copy env_files/.env.<chain-name> to .env and edit it!"
-    exit 1
-  fi
-  docker pull primuslabs/attestor-tools:latest
-  docker run --rm --env-file .env primuslabs/attestor-tools:latest node src/nodeMgt.js registerNode
+  local env_file
+  env_file="$(resolve_env_file "${1:-}")"
+  run_attestor_tools registerNode "$env_file"
 }
 
 
 unregister_node(){
-  # Check .env  exists
-  if [ ! -f .env ]; then
-    echo "Please copy env_files/.env.<chain-name> to .env and edit it!"
-    exit 1
-  fi
-  docker pull primuslabs/attestor-tools:latest
-  docker run --rm --env-file .env primuslabs/attestor-tools:latest node src/nodeMgt.js unRegisterNode
+  local env_file
+  env_file="$(resolve_env_file "${1:-}")"
+  run_attestor_tools unRegisterNode "$env_file"
+}
+
+register_and_stake_node(){
+  local env_file
+  env_file="$(resolve_env_file "${1:-}")"
+  run_attestor_tools registerAndStake "$env_file"
+}
+
+request_exit_node(){
+  local env_file
+  env_file="$(resolve_env_file "${1:-}")"
+  run_attestor_tools requestExit "$env_file"
+}
+
+withdraw_node_stake_and_unregister(){
+  local env_file
+  env_file="$(resolve_env_file "${1:-}")"
+  run_attestor_tools withdrawNodeStakeAndUnregister "$env_file"
 }
 
 main(){
@@ -142,10 +187,19 @@ main(){
       update
       ;;
     register)
-      register_node
+      register_node "${2:-}"
+      ;;
+    registerAndStake)
+      register_and_stake_node "${2:-}"
+      ;;
+    requestExit)
+      request_exit_node "${2:-}"
+      ;;
+    withdrawNodeStakeAndUnregister)
+      withdraw_node_stake_and_unregister "${2:-}"
       ;;
     unregister)
-      unregister_node
+      unregister_node "${2:-}"
       ;;
     logs)
       logs "${2:-}"
@@ -157,8 +211,11 @@ main(){
       echo "  $0 update                # Pull latest images and restart"
       echo "  $0 logs [service]        # Tail logs (optional: service name)"
       echo "  $0 cert <domain>         # Obtain SSL cert via Nginx + Certbot"
-      echo "  $0 register              # Register node on-chain"
-      echo "  $0 unregister            # Unregister node on-chain"
+      echo "  $0 register [chain]      # Register node on-chain"
+      echo "  $0 registerAndStake [chain] # Register node and stake on-chain"
+      echo "  $0 requestExit [chain]   # Request exit then unstake on-chain"
+      echo "  $0 withdrawNodeStakeAndUnregister [chain] # Withdraw stake then unregister"
+      echo "  $0 unregister [chain]    # Unregister node on-chain"
       echo "  $0 clean                 # Remove all containers and volumes"
       exit 1
       ;;

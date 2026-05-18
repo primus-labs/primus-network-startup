@@ -93,7 +93,8 @@ chmod +x ./run.sh
 
 #### 3.3 Set Environment Variables
 
-Based on the chain where your node is located, run the following command:
+Based on the chain where your node is located, choose the matching file under `env_files/`.
+You can either edit it in place or copy it to `.env` if you prefer a local working copy.
 
 ```bash
 cp env_files/.env.base-mainnet .env
@@ -111,6 +112,7 @@ ATTESTOR_ADDRESS=
 RECIPIENT_ADDRESS=
 ATTESTOR_URLS=
 NODE_META_URL=
+STAKE_MANAGER_ADDRESS=
 ```
 
 1. **PRIVATE_KEY**: This private key owns the node and is the same as the [above](#2-please-fill-in-the-required-fields)
@@ -131,6 +133,7 @@ NODE_META_URL=
    them with commas.
 7. **NODE_META_URL**: Attestor node metadata url. The metadata should be a JSON document containing the following
    fields:
+8. **STAKE_MANAGER_ADDRESS**: Required for `registerAndStake`, `requestExit`, and `withdrawNodeStakeAndUnregister`.
 
 ```json
 {
@@ -144,18 +147,31 @@ NODE_META_URL=
 
 ***MAKE SURE `NODE_META_URL` IS PUBLICLY ACCESSIBLE ON THE INTERNET.***
 
-#### 3.4 Register the Node
+#### 3.4 On-chain Commands
 
-> ***One chain per run***: Registration applies to **one chain only** (the chain determined by your current `.env` from step 3.3). If you need to register the node on **multiple chains**, repeat **3.3** (set environment variables for the next chain, e.g. `cp env_files/.env.<other-chain> .env` and fill in the values) and **3.4** (run `register`) for each chain.
+After you finish step 3.3, use `run.sh` to call the on-chain management commands for the selected chain.
+Pass the chain name to make `run.sh` load `env_files/.env.<chain-name>` directly, for example `base-mainnet`.
+
+##### 3.4.1 Register and Stake
+
+Use this when the node is not yet registered and you want to register it and stake the minimum required amount in one step.
 
 ```bash
-sudo ./run.sh register
+sudo ./run.sh registerAndStake base-mainnet
 ```
 
-> If you want to unregister from the Primus network, run the following command:
->```bash
->sudo ./run.sh unregister
->```
-> ***Please note***: Unregistering from the network means you will no longer receive any tasks and will not earn any
-> income.
+##### 3.4.2 Request Exit
 
+Use this to mark the node as exiting and automatically unstake the current active stake from `StakeManager`.
+
+```bash
+sudo ./run.sh requestExit base-mainnet
+```
+
+##### 3.4.3 Withdraw Node Stake and Unregister
+
+Use this after the unstake cooldown has elapsed to withdraw the unlocking stake and then unregister the node.
+
+```bash
+sudo ./run.sh withdrawNodeStakeAndUnregister base-mainnet
+```
