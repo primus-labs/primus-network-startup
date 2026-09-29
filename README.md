@@ -29,7 +29,7 @@ by [Phala](https://cloud.phala.network/dashboard)) in production environments.
 ##### 2. Please fill in the required fields:
 
 - **Name**: This node's name.
-- **docker-compose.yml**: You can find the `docker-compose.yml` file [here](./script/docker-compose.yaml). Please paste it into the `docker-compose.yml` field.
+- **docker-compose.yml**: You can find the `docker-compose.yml` file [here](./docker-compose.yaml). Please paste it into the `docker-compose.yml` field.
 - **KMS Provider**: Only supports `Base`
 - **Node**: `prod9`
 - **Instance Type**: Use `Large TDX Instance(4 vCPU, 8 GB)`
@@ -159,3 +159,12 @@ sudo ./run.sh register
 > ***Please note***: Unregistering from the network means you will no longer receive any tasks and will not earn any
 > income.
 
+### 4. Optional SSL setup
+
+To configure Nginx and obtain a certificate with Certbot, make sure the domain resolves to the node host and ports 80 and 443 are reachable, then run:
+
+```bash
+sudo ./run.sh cert <domain> <email>
+```
+
+The email address is required by Certbot for certificate notices.

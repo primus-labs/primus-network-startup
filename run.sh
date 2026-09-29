@@ -22,6 +22,20 @@ check_environment(){
 
 apply_ssl_cert(){
   domain=${1:-}
+  email=${2:-}
+  if [[ -z "$domain" || -z "$email" ]]; then
+    echo "Usage: $0 cert <domain> <email>"
+    exit 1
+  fi
+  if [[ ! "$domain" =~ ^[A-Za-z0-9.-]+$ ]]; then
+    echo "Invalid domain: $domain"
+    exit 1
+  fi
+  if [[ ! "$email" =~ ^[^@[:space:]]+@[^@[:space:]]+\.[^@[:space:]]+$ ]]; then
+    echo "Invalid email address: $email"
+    exit 1
+  fi
+
   # Check nginx installed
   if ! command -v nginx >/dev/null 2>&1; then
     echo "Nginx is not installed; installing..."
@@ -29,11 +43,6 @@ apply_ssl_cert(){
     sudo apt install -y nginx
     nginx -v
   fi
-  if [[ -z "$domain" ]]; then
-    echo "Usage: $0 cert <domain>"
-    exit 1
-  fi
-
   echo "Apply SSL cert for $domain ..."
 
   # Install certbot (snap recommended on Ubuntu)
@@ -54,7 +63,7 @@ apply_ssl_cert(){
   sudo nginx -s reload
 
   # Obtain certificate
-  sudo certbot certonly --non-interactive --agree-tos --email "" --nginx -d "$domain"
+  sudo certbot certonly --non-interactive --agree-tos --email "$email" --nginx -d "$domain"
 
   # Enable HTTPS config
   sudo cp ./files/attestor-node-https.conf /etc/nginx/conf.d/attestor-node-$domain-https.conf
@@ -123,6 +132,12 @@ unregister_node(){
 main(){
   option=${1:-}
 
+  # SSL setup only needs Nginx and Certbot; Docker is not required for it.
+  if [[ "$option" == "cert" ]]; then
+    apply_ssl_cert "${2:-}" "${3:-}"
+    return
+  fi
+
   check_environment
 
   case $option in
@@ -131,9 +146,6 @@ main(){
       ;;
     down)
       down
-      ;;
-    cert)
-      apply_ssl_cert "${2:-}"
       ;;
     clean)
       clean
@@ -156,7 +168,7 @@ main(){
       echo "  $0 down                  # Stop all services"
       echo "  $0 update                # Pull latest images and restart"
       echo "  $0 logs [service]        # Tail logs (optional: service name)"
-      echo "  $0 cert <domain>         # Obtain SSL cert via Nginx + Certbot"
+      echo "  $0 cert <domain> <email> # Obtain SSL cert via Nginx + Certbot"
       echo "  $0 register              # Register node on-chain"
       echo "  $0 unregister            # Unregister node on-chain"
       echo "  $0 clean                 # Remove all containers and volumes"
